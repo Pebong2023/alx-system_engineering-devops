@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
-# This is a bash script that transfers a file from a client to a server using scp
+# This is a bash to check for arguments in command line
 
-if [ "$#" -lt 3 ]; then
+if [ $# -lt 4 ]
+then
 	echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
-elif [ "$#" -lt 4 ]; then
-	scp -o StrictHostKeyChecking=no "$1" "$3@$2":~/
+	exit1
+fi
+
+#assigning some parameters to variables that will be executed
+
+path_to_file=$1
+ip=$2
+username=$3
+path_to_ssh_key=$4
+
+#To disable strick host key cheecking
+
+scp -o "StrickHostKeyChecking=no" -i "$path_to_ssh_key" "$path_to_file" "$username@ip:~/"
+
+#To be sure the file was successful or not
+if [ $? -eq 0 ]
+then
+	echo "THE FILE WAS TRANSFERED SUCCESSFULLY"
 else
-	scp -i "$4" -o StrictHostKeyChecking=no "$1" "$3@$2":~/
+	echo "THE FILE TRSNAFERED WAS NOT SUCCESSFUL"
 fi
