@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check if the script is run with exactly one argument
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <username>"
+  exit 1
+fi
+
+# Save the current user to switch back later
+current_user=$(whoami)
+
+# Switch to the specified user
+su - "$1" -c 'whoami'
+
+# Switch back to the original user
+su - "$current_user" -c 'whoami'
